@@ -1,10 +1,22 @@
+import useUserContext from "../utils/useUserContext"
+
+
 const Browse=()=>{
+  
+
+
+    const {user}=useUserContext();
+    console.log(user);
+      if (!user) {
+    return <div className="relative top-14">Loading...</div>; // or redirect, or spinner
+  }
+
+    const {displayName,email,userId}=user;
+ 
 
 
     return(
-        <div>
-        <h1>Browse page</h1>
-        </div>
+      <div className="relative top-14"><h1>hello {displayName} your email is {email} and assigned id is {userId}</h1></div>
     )
 
 }

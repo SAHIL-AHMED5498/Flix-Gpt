@@ -39,10 +39,17 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
   const signUp = async (email, pass, name) => {
     try {
 
-     const u = await createUserWithEmailAndPassword(auth, email, pass);
+     const u = await createUserWithEmailAndPassword(auth, email, pass); //user created 
      await updateProfile(u.user, {
       displayName: name,
-      });
+      }); //name updated
+      await u.user.reload();
+       addUser(
+      {displayName:auth.currentUser.displayName,
+        email:auth.currentUser.email,
+        userId:auth.currentUser.uid}); //fill updated name to local user variable
+
+
       alert("Account created successfully");
       navigate("/browse");   //USEEFFECT WILL FILL LOCAL USER VALUE WITH USER VALUE OF AUTH
 
@@ -90,6 +97,7 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
     if (user) {
     // User is signed in
     console.log("User is signed in:", user.uid);
+    console.log("current user"+JSON.stringify(user))
 
     addUser(
       {displayName:user.displayName,

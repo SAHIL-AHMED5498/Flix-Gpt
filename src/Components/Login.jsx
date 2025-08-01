@@ -30,7 +30,7 @@ const Login = () => {
       //console.log(user);
     } else {
       await login(email.current.value, pass.current.value); //SIGNIN USER
-      console.log(user);
+      //console.log(user);
     }
   };
 
@@ -72,17 +72,17 @@ const Login = () => {
           <p className="text-red-500 text-xl py-2 font-bold">{err}</p>
 
           <button
-            className="w-full bg-green-600 hover:bg-green-700 transition p-2 rounded mb-4"
+            className="w-full bg-green-600 hover:bg-green-700 transition p-2 rounded mb-4 rounded-sm active:scale-95"
             onClick={handleClick}
           >
             {sign ? "Sign In" : "Create Account"}
           </button>
 
-          <p className="text-center text-sm">
+          <p className="text-center text-sm ">
             {sign ? "Not a user?" : "Already have an account?"}{" "}
             <button
               onClick={toggleSign}
-              className="text-green-400 hover:underline"
+              className="text-green-400 hover:underline rounded-sm active:scale-95"
             >
               {sign ? "Sign Up" : "Sign In"}
             </button>

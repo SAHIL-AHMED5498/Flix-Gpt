@@ -97,7 +97,7 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
     const unsubscribe = onAuthStateChanged(auth, (user) => {
     if (user) {
     // User is signed in
-    if(location.pathname==="/"){
+    if(location.pathname==="/"||location.pathname==="/browse"){
      navigate("/browse")
     }
     console.log("(FROM USEEFECT )User is signed in:", user.uid);
@@ -112,7 +112,7 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
   } else {
     // User is signed out
     console.log("(FROM USEEFFECT)User is signed out.");
-    if(location.pathname==="/browse"){
+    if(location.pathname==="/browse" || location.pathname==="/"){
     navigate("/")
     }
     removeUser(null);

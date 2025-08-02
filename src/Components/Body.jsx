@@ -4,7 +4,7 @@ const Body=()=>{
 
 
     return(<div>
-    <h1 className="bg-slate-500">Body</h1>
+    <h1 className="bg-slate-500 relative top-14">Body</h1>
     </div>)
 }
 

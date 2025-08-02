@@ -8,7 +8,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,signOut
 } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -35,6 +35,7 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
 
   const {addUser,removeUser } = useUserContext();
   const navigate = useNavigate();
+  const location=useLocation();
 
   const signUp = async (email, pass, name) => {
     try {
@@ -51,7 +52,7 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
 
 
       alert("Account created successfully");
-      navigate("/browse");   //USEEFFECT WILL FILL LOCAL USER VALUE WITH USER VALUE OF AUTH
+     // navigate("/browse");   //USEEFFECT WILL FILL LOCAL USER VALUE WITH USER VALUE OF AUTH
 
     }catch (error) {
       console.error("SignUp Error:", error.code, error.message);
@@ -70,7 +71,7 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
       //   userId:u.user.uid});
 
         alert("login success");
-        navigate("/browse");
+        //navigate("/browse");
 
         // ...
       })
@@ -96,8 +97,12 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
     const unsubscribe = onAuthStateChanged(auth, (user) => {
     if (user) {
     // User is signed in
-    console.log("User is signed in:", user.uid);
-    console.log("current user"+JSON.stringify(user))
+    if(location.pathname==="/"){
+     navigate("/browse")
+    }
+    console.log("(FROM USEEFECT )User is signed in:", user.uid);
+    console.log("(FROM USEEFFECT)current user"+JSON.stringify(user))
+   
 
     addUser(
       {displayName:user.displayName,
@@ -106,8 +111,10 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
     
   } else {
     // User is signed out
-    console.log("User is signed out.");
+    console.log("(FROM USEEFFECT)User is signed out.");
+    if(location.pathname==="/browse"){
     navigate("/")
+    }
     removeUser(null);
   
   }

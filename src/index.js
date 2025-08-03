@@ -4,12 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { UserContextProvider } from './utils/useUserContext';
+import { MovieContextProvider } from './utils/useMoviesContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+    <MovieContextProvider>
    <UserContextProvider>
     <App />
     </UserContextProvider>
+    </MovieContextProvider>
 
 );
 

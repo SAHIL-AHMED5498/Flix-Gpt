@@ -1,23 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import VideoBackground from './VideoBackground'
 import VideoTitle from './VideoTitle'
 import useMoviesContext from '../utils/useMoviesContext'
 
-const MainContainer = () => {
+const MainContainer = ({mainMovie}) => {
+  console.log("maincontainer rendered")
 
-    const {nowMovies}=useMoviesContext();
-    if(!nowMovies){
-        return(<div className='relative top-14'>Loading</div>)
-    }
-    console.log(nowMovies)
 
-    const mainMovie=nowMovies[0];
 
+  const {getMovieVideo,trailer}=useMoviesContext();
+
+   useEffect(()=>{
+    
+     getMovieVideo(mainMovie.id);
+
+  },[mainMovie])
+
+  if(!trailer){
+
+    return(<div>loading video....</div>)
+  }
+
+
+
+   
 
   return (
     <div >
-      <VideoBackground mainMovie={mainMovie}/>
-
+      <VideoBackground trailer={trailer}/>
       <VideoTitle title={mainMovie.original_title} overview={mainMovie.overview}  />
     </div>
   )

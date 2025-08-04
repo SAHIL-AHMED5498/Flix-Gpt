@@ -30,7 +30,7 @@ if(!user || nowMovies==null){
 }
 
   return (
-    <div className='top-0 relative'>
+    <div className='top-14 relative flex flex-col justify-center items-start gap-2'>
       
     <MainContainer mainMovie={mainMovie}/>
     <SecondaryContainer/>

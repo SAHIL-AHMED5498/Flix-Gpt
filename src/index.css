@@ -1,6 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* For Webkit browsers (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 6px;              /* Thin scrollbar */
+  height: 6px;             /* For horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Track background */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: black;  /* Scrollbar color */
+  border-radius: 3px;       /* Rounded edges */
+}
 
 @font-face {
   font-family: 'Flix';

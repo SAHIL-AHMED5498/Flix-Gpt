@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import VideoBackground from './VideoBackground'
 import VideoTitle from './VideoTitle'
 import useMoviesContext from '../utils/useMoviesContext'
@@ -8,15 +8,24 @@ const MainContainer = ({mainMovie}) => {
 
 
 
-  const {getMovieVideo,trailer}=useMoviesContext();
+  const {getMovieVideo}=useMoviesContext();
+  const [mainTrailer,setMainTrailer]=useState(null);
 
    useEffect(()=>{
+
+      const fetchMovie=async()=>{
     
-     getMovieVideo(mainMovie.id);
+     const res= await getMovieVideo(mainMovie.id);
+     setMainTrailer(res);
+      
 
-  },[mainMovie])
+  }
+  fetchMovie();
+   }
+    
+  ,[mainMovie.id])
 
-  if(!trailer){
+  if(!mainTrailer){
 
     return(<div>loading video....</div>)
   }
@@ -27,7 +36,7 @@ const MainContainer = ({mainMovie}) => {
 
   return (
     <div className='relative' >
-      <VideoBackground trailer={trailer}/>
+      {mainTrailer&&<VideoBackground trailer={mainTrailer}/>}
       <VideoTitle title={mainMovie.original_title} overview={mainMovie.overview}  />
     </div>
   )

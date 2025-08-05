@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SecondaryContainer from "./SecondaryContainer"
 import useMoviesContext from '../utils/useMoviesContext';
 import useUserContext from "../utils/useUserContext"
@@ -8,33 +8,75 @@ const Browse = () => {
   console.log("browse page rendered");
 
  const {user}=useUserContext();
-  const {nowMovies,getNowMovies,randomNumber}=useMoviesContext();
+  const {randomNumber,getMoviesList,pageNumber,increasePageNumber,decreasePageNumber}=useMoviesContext();
 
-   let mainMovie="";
+   const [mainMovie,setMainMovie]=useState([]);
+  // console.log(mainMovie);
+
+ 
 
   useEffect(()=>{
 
     console.log("fetching now movies");
-    getNowMovies("1");
+      const fetchMovie=async()=>{
+    try{
+     console.log("fetching nowMovies");
+        const res=await getMoviesList(pageNumber,"now_playing");
+         setMainMovie(res);
+         
+   
 
 
-  },[])
-
-
-if(nowMovies!==null){
-  mainMovie=nowMovies[randomNumber.current]
+    }
+    catch(err){
+      console.log(err);
+    }
+  
   }
+    fetchMovie();
 
-if(!user || nowMovies==null){
+
+  },[pageNumber])
+
+  
+
+
+
+
+if(!user){
   return(<div className='relative top-14'>loading...</div>)
 }
 
+const selectedMovie=mainMovie[randomNumber.current];
+//top-14 relative
+
   return (
-    <div className='top-14 relative flex flex-col justify-center items-start gap-2'>
+
+    <>
+    <div className='relative top-14' >
       
-    <MainContainer mainMovie={mainMovie}/>
+    {selectedMovie&&<MainContainer mainMovie={selectedMovie}/>}
+    <div className='bg-black h-screen w-screen'></div>
+
     <SecondaryContainer/>
+
+    
+        
+         <button onClick={decreasePageNumber} className='p-2 m-2 bg-purple-400 opacity-40 w-12 h-8 flex justify-center items-center z-40 fixed bottom-0 left-6 rounded active:scale-90 rotate-180 active:opacity-100 '>➜</button>
+      
+         <button onClick={increasePageNumber} className='p-2 m-2 bg-red-400 opacity-40 w-12 h-8 flex justify-center items-center z-40 fixed bottom-0 right-6 rounded active:scale-90 active:opacity-100'>➜</button>
+
+
+      
+
+
+
+   
     </div>
+
+ 
+    </>
+    
   )
 }
 

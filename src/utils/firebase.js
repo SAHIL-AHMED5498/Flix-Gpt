@@ -116,7 +116,7 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
   } else {
     // User is signed out
     console.log("(FROM USEEFFECT)User is signed out.");
-    if(location.pathname==="/browse" || location.pathname==="/"||location.pathname==="/search"){
+    if(location.pathname==="/browser" || location.pathname==="/"||location.pathname==="/search"){
     navigate("/")
     }
     removeUser(null);

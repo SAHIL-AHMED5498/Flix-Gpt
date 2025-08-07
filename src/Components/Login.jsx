@@ -37,7 +37,8 @@ const Login = () => {
   return (
     <div className="relative h-screen w-screen top-12">
       <img
-        src="/images/imgOne.jpg"
+        // src="/images/imgOne.jpg"
+        src="/bg-img.svg"
         alt="Background"
         className="w-full h-full object-cover"
       />

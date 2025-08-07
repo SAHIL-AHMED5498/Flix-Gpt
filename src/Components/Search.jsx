@@ -27,7 +27,14 @@ const Search = () => {
     addResult(MList);
   };
   return (
-    <div className="top-14 relative flex flex-col text-center items-center justify-start border h-[200vh] w-screen bg-black p-4 gap-2">
+
+    <>
+    <img src="/bg-img.svg" alt="bg-img"  className="absolute"/>
+     <div className="top-14 text-black relative flex flex-col justify-center items-center p-2">
+
+      
+
+        
       <div className="mt-14 sm:w-1/2 w-full ">
         <form className="flex " onSubmit={(e) => e.preventDefault()}>
           <input
@@ -51,7 +58,7 @@ const Search = () => {
             Ai Suggested Movie
           </div>
 
-          <div className="flex overflow-x-scroll  gap-3 h-40 cursor-pointer">
+          <div className="flex overflow-x-auto  gap-3 h-40 cursor-pointer">
             {results.map((m) => {
               const posterUrl = `${image_cdn_url}${m.poster_path}`;
 
@@ -77,7 +84,14 @@ const Search = () => {
           p={pageNumber}
         />
       </div>
+
+
+
+    
     </div>
+    </>
+   
+
   );
 };
 

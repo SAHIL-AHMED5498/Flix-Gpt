@@ -5,14 +5,20 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { UserContextProvider } from './utils/useUserContext';
 import { MovieContextProvider } from './utils/useMoviesContext';
+import ConfigContextProvider from './utils/useConfigContext';
+import { AiContextProvider } from './utils/useAiContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+    <AiContextProvider>
+    <ConfigContextProvider>
     <MovieContextProvider>
    <UserContextProvider>
     <App />
     </UserContextProvider>
     </MovieContextProvider>
+    </ConfigContextProvider>
+    </AiContextProvider>
 
 );
 

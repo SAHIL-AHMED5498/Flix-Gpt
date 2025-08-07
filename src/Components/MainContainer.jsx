@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react'
 import VideoBackground from './VideoBackground'
 import VideoTitle from './VideoTitle'
 import useMoviesContext from '../utils/useMoviesContext'
+import { Thumbnail } from '../Shimmers/Thumbnail'
 
 const MainContainer = ({mainMovie}) => {
   console.log("maincontainer rendered")
 
 
 
-  const {getMovieVideo}=useMoviesContext();
-  const [mainTrailer,setMainTrailer]=useState(null);
+  const {getMovieVideo}=useMoviesContext(); //GET SELECTED MOVIE TRAILER
+  const [mainTrailer,setMainTrailer]=useState(null); //STORE TRAILER 
 
    useEffect(()=>{
 
@@ -23,11 +24,14 @@ const MainContainer = ({mainMovie}) => {
   fetchMovie();
    }
     
-  ,[mainMovie.id])
+  ,[mainMovie.id]) //FETCH EVRYTIME SELECTED MOVIE CHANGED
 
   if(!mainTrailer){
 
-    return(<div>loading video....</div>)
+    return(<div>loading video....
+
+      <Thumbnail/>
+    </div>)
   }
 
 

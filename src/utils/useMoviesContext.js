@@ -15,7 +15,7 @@ export const MovieContextProvider=({children})=>{
     const [selectedMovie,setSelectedMovie]=useState(null);
 
     const getNowMovies=async(p)=>{
-          await fetch(`https://api.themoviedb.org/3/movie/now_playing?page=${p}`, options) //FETCH NOW MOVIES
+          await fetch(`https://tmdb-proxy-dzjf.onrender.com/3/movie/now_playing?page=${p}`)  //FETCH NOW MOVIES
           
   .then(res => res.json()) //CONVERT TO JS OBJ
   .then(res =>{
@@ -28,7 +28,7 @@ export const MovieContextProvider=({children})=>{
 
     const getMoviesList=async(p,type)=>{
 
-     const res= await fetch(`https://api.themoviedb.org/3/movie/${type}?page=${p}`, options);
+     const res= await fetch(`https://tmdb-proxy-dzjf.onrender.com/3/movie/${type}?page=${p}`);
      const json=await res.json();
      const data=await json?.results;
      return data;
@@ -41,7 +41,7 @@ export const MovieContextProvider=({children})=>{
        const getMovieVideo=async(id)=>{
     
             try{  
-         const data =await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`, options) //FETCH GIVEN MOVIE VIDEOS
+         const data =await fetch(`https://tmdb-proxy-dzjf.onrender.com/3/movie/${id}/videos?language=en-US`); //FETCH GIVEN MOVIE VIDEOS
          const json=await data.json();   //CONVERT TO JS OBJ
          
          const filteredData=json.results.filter((v)=>v.type=="Trailer");   //FILTER TO GET ONLY TRAILERS

@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -51,11 +52,13 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
         userId:auth.currentUser.uid}); //fill updated name to local user variable
 
 
-      alert("Account created successfully");
+     // alert("Account created successfully");
+     toast.success("Account created successfully!");
      // navigate("/browse");   //USEEFFECT WILL FILL LOCAL USER VALUE WITH USER VALUE OF AUTH
 
     }catch (error) {
       console.error("SignUp Error:", error.code, error.message);
+      toast.error(" Error occurred. Please retry shortly.");
     }
   };
 
@@ -70,7 +73,7 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
       //   email:u.user.email,
       //   userId:u.user.uid});
 
-        alert("login success");
+      toast.success(" Logged in successfully!");
         //navigate("/browse");
 
         // ...
@@ -79,7 +82,7 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode + " " + errorMessage);
-        alert("something went wrong try again!");
+         toast.error(" Error occurred. Please retry shortly.");
       });
   };
 
@@ -87,9 +90,10 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
   try {
    // navigate("/");
     await signOut(auth);
-    alert("Logged out successfully");
+   toast.success(" Logged out successfully!");
   } catch (error) {
     console.error("Logout Error:", error.message);
+     toast.error(" Error occurred. Please retry shortly.");
   }
 };
 

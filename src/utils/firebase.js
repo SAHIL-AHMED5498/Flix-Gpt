@@ -88,7 +88,7 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
 
   const logout=async () => {
   try {
-   // navigate("/");
+   //navigate("/");
     await signOut(auth);
    toast.success(" Logged out successfully!");
   } catch (error) {
@@ -116,7 +116,7 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
   } else {
     // User is signed out
     console.log("(FROM USEEFFECT)User is signed out.");
-    if(location.pathname==="/browse" || location.pathname==="/"){
+    if(location.pathname==="/browse" || location.pathname==="/"||location.pathname==="/search"){
     navigate("/")
     }
     removeUser(null);

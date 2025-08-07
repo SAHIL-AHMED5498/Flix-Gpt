@@ -21,13 +21,13 @@ const Search = () => {
 
     const recommendation = await getAIMovieList(message.current.value);
     const MList = await fetchMovies(recommendation);
-    if (MList.length == 0) {
+    if (!recommendation) {
       toast.error("something went wrong");
     }
     addResult(MList);
   };
   return (
-    <div className="top-14 relative flex flex-col text-center items-center justify-start border h-[200vh] bg-black p-4 gap-2">
+    <div className="top-14 relative flex flex-col text-center items-center justify-start border h-[200vh] w-screen bg-black p-4 gap-2">
       <div className="mt-14 sm:w-1/2 w-full ">
         <form className="flex " onSubmit={(e) => e.preventDefault()}>
           <input

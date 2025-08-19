@@ -3,13 +3,14 @@ import { validate } from "../utils/validate";
 import { useFirebaseAuth } from "../utils/firebase";
 import toast from "react-hot-toast";
 import { auth } from "../utils/firebase";
+import useUserContext from "../utils/useUserContext";
 
 
 
 
 
 const Login = () => {
-  
+  const {user}=useUserContext();
 
   const { signUp, login } = useFirebaseAuth();  //GET AUTH FUNCTIONS
   const [sign, setSign] = useState(true); //MANAGE FORM 
@@ -128,7 +129,7 @@ const Login = () => {
             Sahil (Developer)
           </p>
           <p className="mt-1 text-sm text-gray-500">
-  Welcome Back <span className="text-purple-600 font-semibold">{auth.currentUser?.displayName || "User"}</span>
+  Welcome Back <span className="text-purple-600 font-semibold">{user?.name || "User"}</span>
 </p>
         </div>
       </div>

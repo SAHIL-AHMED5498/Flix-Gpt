@@ -1,3 +1,4 @@
+import axios from "axios";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
@@ -8,9 +9,12 @@ import {
   signInWithEmailAndPassword,
   updateProfile,signOut
 } from "firebase/auth";
+
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { BACKEND_URL } from "./constant";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -34,7 +38,7 @@ export const auth = getAuth();
 
 export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
 
-  const {addUser,removeUser } = useUserContext();
+  const {addUser,removeUser,user } = useUserContext();
   const navigate = useNavigate();
   const location=useLocation();
 
@@ -47,34 +51,44 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
       }
 
 
-     const u = await createUserWithEmailAndPassword(auth, email, pass); //user created 
+     const res=await axios.post(BACKEND_URL+"/auth/signUp",
+      {
+      name,email,pass
+     },
+     {withCredentials:true,
+       headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      console.log(res.data);
 
-     await updateProfile(u.user, {
-      displayName: name,
-      }); //name updated
+      addUser(res.data);
+      
+   navigate("/browse")
 
-      await u.user.reload();
-       addUser(
-      {displayName:auth.currentUser.displayName,
-        email:auth.currentUser.email,
-        userId:auth.currentUser.uid}); //fill updated name to local user variable
+    
 
-
+  
   
 
     }catch (error) {
       console.error("SignUp Error:", error.code, error.message);
-      throw error
+      
      
     }
   };
 
 const login = async (email, pass) => {
   try {
-    await signInWithEmailAndPassword(auth, email, pass);
-  } catch (error) {
+   const res=await axios.post(BACKEND_URL+"/auth/signIn",{email,pass},{withCredentials:true})
+   console.log(res);
+   addUser(res.data);
+   navigate("/browse")
+  } 
+  
+  catch (error) {
     
-    console.error("Firebase login error:", error.code, error.message);
+    console.error(" login error:", error.code, error.message);
 
   
     throw error;
@@ -84,7 +98,8 @@ const login = async (email, pass) => {
   const logout=async () => {
   try {
    navigate("/");
-    await signOut(auth);
+   const res=await axios.post(BACKEND_URL+"/auth/logout",{},{withCredentials:true});
+   console.log(res);
    toast.success(" Logged out successfully!");
   } catch (error) {
     console.error("Logout Error:", error.message);
@@ -92,36 +107,7 @@ const login = async (email, pass) => {
   }
 };
 
-   useEffect(()=>{
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-    if (user) {
-    // User is signed in
-    if(location.pathname==="/"||location.pathname==="/browse"){
-     navigate("/browse")
-    }
-    console.log("(FROM USEEFECT )User is signed in:", user.uid);
-    console.log("(FROM USEEFFECT)current user"+JSON.stringify(user))
-   
 
-    addUser(
-      {displayName:user.displayName,
-        email:user.email,
-        userId:user.uid});
-    
-  } 
-  else {
-    // User is signed out
-    console.log("(FROM USEEFFECT)User is signed out.");
-    if(location.pathname==="/browser" || location.pathname==="/"||location.pathname==="/search"){
-    navigate("/")
-    }
-    removeUser(null);
-  
-  }
-});
-
-return unsubscribe;
- },[])
 
 
 

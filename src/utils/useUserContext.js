@@ -11,6 +11,7 @@ export const UserContextProvider=({children})=>{
 
     const addUser=(u)=>{
         setUser(u);
+        console.log(user);
     }
 
     const removeUser=()=>{

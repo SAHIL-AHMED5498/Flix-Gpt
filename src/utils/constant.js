@@ -7,3 +7,6 @@ export const options = {
 };
 
 export const image_cdn_url="https://image.tmdb.org/t/p/w200"
+
+
+export const BACKEND_URL="https://tmdb-proxy-dzjf.onrender.com"

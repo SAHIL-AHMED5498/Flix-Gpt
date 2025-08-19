@@ -1,5 +1,6 @@
 import { createContext, useContext, useRef } from "react";
 import { useState } from "react";
+import axios from "axios";
 
 
 
@@ -13,30 +14,26 @@ export const AiContextProvider=({children})=>{
      const TMDB_API="https://tmdb-proxy-dzjf.onrender.com/3/search/movie";
      const [results,setResult]=useState();
 
-      const getAIMovieList = async (message) => {
+const getAIMovieList = async (message) => {
   try {
-    const response = await fetch("https://tmdb-proxy-dzjf.onrender.com/api/ai", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "internal-key":"SAHIL54985498" 
-      },
-      body: JSON.stringify({
-        message: `${message}`,
-      }),
-    });
+    const response = await axios.post(
+      "https://tmdb-proxy-dzjf.onrender.com/api/ai",
+      { message }, // body
+      {
+        withCredentials: true, // send JWT cookie
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    const data = await response.json();
+    console.log(response);
 
-    if (!response.ok) {
-      throw new Error(data.error || "Failed to fetch from /api/ai");
-    }
-
-    console.log("AI Suggested Movies:", data.reply); // Expected: [m1, m2, m3, m4, m5]
-    return data.reply;
+   // console.log("AI Suggested Movies:", response.data.reply);
+    return response.data.reply; // Expected: [m1, m2, m3, m4, m5]
 
   } catch (err) {
-    console.error("Error:", err.message);
+    console.error("Error:", err.response?.data?.error || err.message);
   }
 };
         
@@ -47,29 +44,31 @@ export const AiContextProvider=({children})=>{
     setResult(value);   
    }
 
-    const fetchMovies = async (movieList1) => {
-    try {
-      const promises = movieList1.map(async (title) => {
-        const url = `${TMDB_API}?query=${encodeURIComponent(title)}&include_adult=false&language=en-US&page=1`;
+const fetchMovies = async (movieList1) => {
+  try {
+    const promises = movieList1.map(async (title) => {
+      const url = `${TMDB_API}?query=${encodeURIComponent(
+        title
+      )}&include_adult=false&language=en-US&page=1`;
 
-        const res = await fetch(url);
-
-        const data = await res.json();
-
-        // Optional: take only the first result if multiple are returned
-        return data.results[0]; // or return full data.results if you want all
+      const res = await axios.get(url, {
+        withCredentials: true, // only needed if your backend sets JWT cookies
       });
 
-      const allResults = await Promise.all(promises);
+      // Optional: take only the first result if multiple are returned
+      return res.data.results[0]; // or return res.data.results if you want all
+    });
 
-      // Filter out null/undefined in case some movies were not found
-      const validResults = allResults.filter(Boolean);
+    const allResults = await Promise.all(promises);
 
-       return validResults;
-    } catch (err) {
-      console.error("Error fetching TMDB results:", err);
-    }
-  };
+    // Filter out null/undefined in case some movies were not found
+    const validResults = allResults.filter(Boolean);
+
+    return validResults;
+  } catch (err) {
+    console.error("Error fetching TMDB results:", err.response?.data || err.message);
+  }
+};
 
 
 

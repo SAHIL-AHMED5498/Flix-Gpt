@@ -1,5 +1,6 @@
 import { createContext, useContext, useRef } from "react";
 import { useState } from "react";
+import { BACKEND_URL } from "./constant";
 
 
 
@@ -15,7 +16,7 @@ export const AiContextProvider=({children})=>{
 
       const getAIMovieList = async (message) => {
   try {
-    const response = await fetch("https://tmdb-proxy-dzjf.onrender.com/api/ai", {
+    const response = await fetch(BACKEND_URL+"/api/ai", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

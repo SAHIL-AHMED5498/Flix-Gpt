@@ -1,4 +1,4 @@
-import  { useRef, useState } from "react";
+import  { useEffect, useRef, useState } from "react";
 import { validate } from "../utils/validate";
 import { useFirebaseAuth } from "../utils/firebase";
 import toast from "react-hot-toast";
@@ -6,15 +6,21 @@ import { auth } from "../utils/firebase";
 
 
 
+
+
 const Login = () => {
+  
 
   const { signUp, login } = useFirebaseAuth();  //GET AUTH FUNCTIONS
   const [sign, setSign] = useState(true); //MANAGE FORM 
   const [err, setErr] = useState(null); //DISPLAY FORM ERROR
 
+
   const email = useRef(null); 
   const pass = useRef(null);
   const name = useRef(null);
+
+
 
   const toggleSign = (e) => {
     e.preventDefault(); // Prevent form submission
@@ -36,8 +42,9 @@ const Login = () => {
       return;
     }
     try{ 
-       if (!sign) { //IF A SIGNUP REQUEST
-        console.log("welcome toast")
+       if (!sign) {
+         //IF A SIGNUP REQUEST
+       
 
         
 

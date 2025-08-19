@@ -28,6 +28,7 @@ const MovieList = ({heading,type,p}) => {
   }
 
   useEffect(()=>{
+    
     fetchMovie();
   },[pageNumber])
 

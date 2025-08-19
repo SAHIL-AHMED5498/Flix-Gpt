@@ -19,7 +19,7 @@ export const AiContextProvider=({children})=>{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "internal-key":"SAHIL54985498" // Replace with actual token
+        "internal-key":"SAHIL54985498" 
       },
       body: JSON.stringify({
         message: `${message}`,

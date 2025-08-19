@@ -12,24 +12,56 @@ const Search = () => {
   const { pageNumber } = useMoviesContext();
   const { test, message, getAIMovieList, fetchMovies, addResult, results } =
     useAiContextProvider();
+
+
+
   useEffect(() => {
     console.log(results);
   }, [results]);
 
-  const handleClick = async () => {
-    setShowShimmer(true);
+const handleClick = async () => {
+  const query = message.current?.value?.trim();
 
-    const recommendation = await getAIMovieList(message.current.value);
-    const MList = await fetchMovies(recommendation);
-    if (!recommendation) {
-      toast.error("something went wrong");
+  if (!query) {
+    toast.error("Please enter a valid movie name");
+    return;
+  }
+
+  setShowShimmer(true);
+
+  let toastId;
+
+  try {
+    // Step 1: Fetch AI recommendations
+    toastId = toast.loading("Generating recommendations using AI...");
+    const AiRecommendation = await getAIMovieList(query);
+    if (!AiRecommendation || Object.keys(AiRecommendation).length === 0) {
+      throw new Error("No AI recommendations found.");
     }
+    toast.success("AI recommendations generated!", { id: toastId });
+
+    // Step 2: Fetch movie data from TMDB
+    toastId = toast.loading("Fetching movie details from TMDB...");
+    const MList = await fetchMovies(AiRecommendation);
+    if (!Array.isArray(MList) || MList.length === 0) {
+      throw new Error("Could not fetch movie details.");
+    }
+    toast.success("Movie data fetched successfully!", { id: toastId });
+
+    // Step 3: Update UI
     addResult(MList);
-  };
+
+  } catch (error) {
+    console.error("Error in handleClick:", error);
+    toast.error(error.message || "Something went wrong.", { id: toastId });
+  } finally {
+    setShowShimmer(false);
+  }
+};
   return (
 
     <>
-    <img src="/bg-img.svg" alt="bg-img"  className="absolute"/>
+    <img src="/bg-img.svg" alt="bg-img"  className="absolute h-full w-full object-cover"/>
      <div className="top-14 text-black relative flex flex-col justify-center items-center p-2">
 
       

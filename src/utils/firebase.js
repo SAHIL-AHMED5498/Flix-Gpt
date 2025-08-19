@@ -40,11 +40,19 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
 
   const signUp = async (email, pass, name) => {
     try {
+      if(!name){
+        toast.error("Missing required details")
+        throw new Error("missing required details");
+        
+      }
+
 
      const u = await createUserWithEmailAndPassword(auth, email, pass); //user created 
+
      await updateProfile(u.user, {
       displayName: name,
       }); //name updated
+
       await u.user.reload();
        addUser(
       {displayName:auth.currentUser.displayName,
@@ -52,43 +60,30 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
         userId:auth.currentUser.uid}); //fill updated name to local user variable
 
 
-     // alert("Account created successfully");
-     toast.success("Account created successfully!");
-     // navigate("/browse");   //USEEFFECT WILL FILL LOCAL USER VALUE WITH USER VALUE OF AUTH
+  
 
     }catch (error) {
       console.error("SignUp Error:", error.code, error.message);
-      toast.error(" Error occurred. Please retry shortly.");
+      throw error
+     
     }
   };
 
-  const login = async (email, pass) => {
+const login = async (email, pass) => {
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch (error) {
+    
+    console.error("Firebase login error:", error.code, error.message);
 
-    await signInWithEmailAndPassword(auth, email, pass)
-      .then((userCredential) => {
-       
-        // Signed in
-      //  addUser(
-      // {displayName:u.user.displayName,
-      //   email:u.user.email,
-      //   userId:u.user.uid});
-
-      toast.success(" Logged in successfully!");
-        //navigate("/browse");
-
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode + " " + errorMessage);
-         toast.error(" Error occurred. Please retry shortly.");
-      });
-  };
+  
+    throw error;
+  }
+};
 
   const logout=async () => {
   try {
-   //navigate("/");
+   navigate("/");
     await signOut(auth);
    toast.success(" Logged out successfully!");
   } catch (error) {
@@ -113,7 +108,8 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
         email:user.email,
         userId:user.uid});
     
-  } else {
+  } 
+  else {
     // User is signed out
     console.log("(FROM USEEFFECT)User is signed out.");
     if(location.pathname==="/browser" || location.pathname==="/"||location.pathname==="/search"){

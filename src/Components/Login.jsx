@@ -1,6 +1,8 @@
 import  { useRef, useState } from "react";
 import { validate } from "../utils/validate";
 import { useFirebaseAuth } from "../utils/firebase";
+import toast from "react-hot-toast";
+import { auth } from "../utils/firebase";
 
 
 
@@ -21,17 +23,132 @@ const Login = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    
-    const errMessage = validate(email.current.value, pass.current.value); //GIVE ERROR IF ANY OR NULL IF NO ERROR
-    setErr(errMessage); 
 
-    if (!sign) { //IF A SIGNUP REQUEST
-      await signUp(email.current.value, pass.current.value, name.current.value); //CREATE USER
-      //console.log(user);
-    } else {
-      await login(email.current.value, pass.current.value); //SIGNIN USER
+  const emailVal = email.current?.value?.trim();
+  const passVal = pass.current?.value?.trim();
+  const nameVal = name.current?.value?.trim();
+
+ 
+    
+    const errMessage = validate(emailVal, passVal); //GIVE ERROR IF ANY OR NULL IF NO ERROR
+    setErr(errMessage); 
+    if(errMessage){
+      return;
+    }
+    try{ 
+       if (!sign) { //IF A SIGNUP REQUEST
+        console.log("welcome toast")
+
+        
+
+  
+
+        await toast.promise(signUp(emailVal, passVal, nameVal), //CREATE USER
+          {
+          loading: 'Creating account...',
+          success: <b>Account created successfully!</b>,
+          error: <b>Failed to create account.</b>,
+        } )
+
+       setTimeout(()=>{ toast.custom((t) => (
+  <div
+    className={`${
+      t.visible ? 'animate-enter' : 'animate-leave'
+    } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 z-10`}
+  >
+    <div className="flex-1 w-0 p-4">
+      <div className="flex items-start gap-1">
+        <img
+          className="h-12 w-12 object-cover rounded-full flex-none"
+          src="https://cdn.pfps.gg/pfps/5749-nice-anime-profile-icon.png"
+          alt="Profile"
+        />
+        <div className="flex-1">
+          <p className="text-sm font-medium text-gray-900">
+            Sahil (Developer)
+          </p>
+          <p className="mt-1 text-sm text-gray-500">
+  Welcome aboard! 🎉 You’re now part of <span className="text-purple-600 font-semibold">version 1.0</span> — stable, smooth, and packed with potential 🚀
+</p>
+        </div>
+      </div>
+    </div>
+    <div className="flex border-l border-gray-200">
+      <button
+        onClick={() => toast.dismiss(t.id)}
+        className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+))},500)  
+
+         
+      
+
+
+
+
       //console.log(user);
     }
+     else
+     {
+
+        await toast.promise(
+          login(emailVal, passVal),  //SIGNIN USER
+          {
+          loading: 'Signing in...',
+          //success: <b>Welcome back!</b>,
+          error: <b>Login failed. Check your credentials.</b>,
+        })
+
+     toast.custom((t) => (
+  <div
+    className={`${
+      t.visible ? 'animate-enter' : 'animate-leave'
+    } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 z-10`}
+  >
+    <div className="flex-1 w-0 p-4">
+      <div className="flex items-start gap-1">
+        <img
+          className="h-12 w-12 object-cover rounded-full flex-none"
+          src="https://cdn.pfps.gg/pfps/5749-nice-anime-profile-icon.png"
+          alt="Profile"
+        />
+        <div className="flex-1">
+          <p className="text-sm font-medium text-gray-900">
+            Sahil (Developer)
+          </p>
+          <p className="mt-1 text-sm text-gray-500">
+  Welcome Back <span className="text-purple-600 font-semibold">{auth.currentUser?.displayName || "User"}</span>
+</p>
+        </div>
+      </div>
+    </div>
+    <div className="flex border-l border-gray-200">
+      <button
+        onClick={() => toast.dismiss(t.id)}
+        className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+))
+
+      
+      //console.log(user);
+
+
+    }}
+    catch(err){
+      console.log(err);
+      //toast.error("unexpected error occured");
+    }
+  
+
+
   };
 
   return (

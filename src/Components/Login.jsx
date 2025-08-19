@@ -36,9 +36,8 @@ const Login = () => {
       return;
     }
     try{ 
-       if (!sign) {
-         //IF A SIGNUP REQUEST
-       
+       if (!sign) { //IF A SIGNUP REQUEST
+        console.log("welcome toast")
 
         
 

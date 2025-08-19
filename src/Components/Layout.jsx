@@ -1,9 +1,16 @@
-
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import Header from './Header';
 import { Toaster } from 'react-hot-toast';
+import useUserContext from '../utils/useUserContext';
+import { useEffect } from 'react';
+import { BACKEND_URL } from '../utils/constant';
+import axios from 'axios';
 
 const Layout = () => {
+  const { user, setUser } = useUserContext(); // assume context provides setUser
+  const navigate = useNavigate();
+  const location = useLocation();
+
 
 
   return (

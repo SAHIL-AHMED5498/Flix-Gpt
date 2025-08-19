@@ -1,21 +1,12 @@
-// Import the functions you need from the SDKs you need
+import axios from 'axios'
 import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth} from "firebase/auth";
 import useUserContext from "./useUserContext";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile,signOut
-} from "firebase/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { BACKEND_URL } from './constant';
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyD_8rMibMOZHb1JIlbtXK-t_ZwStzI8urA",
   authDomain: "flix-gpt-f48c8.firebaseapp.com",
@@ -28,15 +19,17 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
+
 export const auth = getAuth();
 
 
-export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
+export const useFirebaseAuth = () => {//FIREBASE AUTH HOOK
 
-  const {addUser,removeUser } = useUserContext();
+  const {addUser,removeUser} = useUserContext();
   const navigate = useNavigate();
   const location=useLocation();
+
+
 
   const signUp = async (email, pass, name) => {
     try {
@@ -47,17 +40,14 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
       }
 
 
-     const u = await createUserWithEmailAndPassword(auth, email, pass); //user created 
+     const res = await axios.post(BACKEND_URL+"/auth/signUp",{
+      email,name,pass
+     },{withCredentials:true})//user created 
 
-     await updateProfile(u.user, {
-      displayName: name,
-      }); //name updated
+     addUser(res.data);
+     navigate("/browse")
 
-      await u.user.reload();
-       addUser(
-      {displayName:auth.currentUser.displayName,
-        email:auth.currentUser.email,
-        userId:auth.currentUser.uid}); //fill updated name to local user variable
+    
 
 
   
@@ -71,10 +61,12 @@ export const useFirebaseAuth = () => {       //FIREBASE AUTH HOOK
 
 const login = async (email, pass) => {
   try {
-    await signInWithEmailAndPassword(auth, email, pass);
+    const res=await axios.post(BACKEND_URL+"/auth/signIn",{email,pass},{withCredentials:true});
+    addUser(res.data);
+    navigate("/browse")
   } catch (error) {
     
-    console.error("Firebase login error:", error.code, error.message);
+    console.error("login error:", error.code, error.message);
 
   
     throw error;
@@ -83,8 +75,11 @@ const login = async (email, pass) => {
 
   const logout=async () => {
   try {
-   navigate("/");
-    await signOut(auth);
+  
+    const res=await axios.post(BACKEND_URL+"/auth/logout",{},{withCredentials:true});
+    console.log(res);
+    removeUser();
+    navigate("/");
    toast.success(" Logged out successfully!");
   } catch (error) {
     console.error("Logout Error:", error.message);
@@ -92,36 +87,41 @@ const login = async (email, pass) => {
   }
 };
 
-   useEffect(()=>{
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-    if (user) {
-    // User is signed in
-    if(location.pathname==="/"||location.pathname==="/browse"){
-     navigate("/browse")
-    }
-    console.log("(FROM USEEFECT )User is signed in:", user.uid);
-    console.log("(FROM USEEFFECT)current user"+JSON.stringify(user))
-   
 
-    addUser(
-      {displayName:user.displayName,
-        email:user.email,
-        userId:user.uid});
-    
-  } 
-  else {
-    // User is signed out
-    console.log("(FROM USEEFFECT)User is signed out.");
-    if(location.pathname==="/browser" || location.pathname==="/"||location.pathname==="/search"){
-    navigate("/")
-    }
-    removeUser(null);
-  
-  }
-});
 
-return unsubscribe;
- },[])
+
+ useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await axios.get(BACKEND_URL + "/view/profile", {
+          withCredentials: true,
+        });
+
+        if (res.data) {
+          addUser(res.data);
+
+          // if user is already logged in but visiting "/", send them to /browse
+          if (location.pathname === "/") {
+            navigate("/browse");
+          }
+        }
+      } catch (err) {
+        console.log("Auth check failed:", err.message);
+        removeUser();
+
+        // if user is logged out but trying to access protected pages, redirect to "/"
+        if (location.pathname === "/browse" || location.pathname === "/search") {
+          navigate("/");
+        }
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+
+
+
 
 
 

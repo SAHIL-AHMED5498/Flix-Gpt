@@ -11,14 +11,12 @@ import toast, { Toaster } from 'react-hot-toast';
 const Browse = () => {
   console.log("browse page rendered");
   
-  
 
  const {user}=useUserContext();
- console.log(user);
   const {randomNumber,getMoviesList,pageNumber,increasePageNumber,decreasePageNumber}=useMoviesContext();
 
    const [mainMovie,setMainMovie]=useState([]); //TO STORE ARRAY OF MOVIES
-  console.log(mainMovie);
+  // console.log(mainMovie);
   const selectedMovie=mainMovie[randomNumber.current]; //STORE ANY RANDOM MOVIE FROM MOVIE ARRAY
 
  

@@ -5,7 +5,7 @@ import useMoviesContext from '../utils/useMoviesContext'
 import { Thumbnail } from '../Shimmers/Thumbnail'
 
 const MainContainer = ({mainMovie}) => {
-  console.log("maincontainer rendered")
+  //console.log("maincontainer rendered")
 
 
 

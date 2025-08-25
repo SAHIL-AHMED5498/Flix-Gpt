@@ -5,7 +5,7 @@ import useMoviesContext from '../utils/useMoviesContext'
 import { ShimmerPostItem } from 'react-shimmer-effects'
 
 const MovieList = ({heading,type,p}) => {
-  console.log("Movie List Rendered")
+//  console.log("Movie List Rendered")
   const {getMoviesList,pageNumber}=useMoviesContext();
 
 
@@ -14,7 +14,7 @@ const MovieList = ({heading,type,p}) => {
   
   const fetchMovie=async()=>{
     try{
-     console.log("fetching"+type);
+     //console.log("fetching"+type);
         const res=await getMoviesList(p,type);
          setList(res);
    

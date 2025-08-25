@@ -4,7 +4,7 @@ import { supportedLang } from '../utils/languageConstants';
 
 const SelectLang = () => {
     const {changeLang,langKey}=useConfigContext();
-    console.log(langKey);
+    //console.log(langKey);
 
 
    

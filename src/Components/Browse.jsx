@@ -5,11 +5,11 @@ import useUserContext from "../utils/useUserContext"
 import MainContainer from './MainContainer';
 import { Thumbnail } from '../Shimmers/Thumbnail';
 import { ShimmerPostItem } from 'react-shimmer-effects';
-import toast, { Toaster } from 'react-hot-toast';
+
 
 
 const Browse = () => {
-  console.log("browse page rendered");
+ // console.log("browse page rendered");
   
 
  const {user}=useUserContext();
@@ -23,10 +23,10 @@ const Browse = () => {
 
   useEffect(()=>{
 
-    console.log("fetching now movies");
+    //console.log("fetching now movies");
       const fetchMovie=async()=>{
     try{
-     console.log("fetching nowMovies");
+     //console.log("fetching nowMovies");
         const res=await getMoviesList(pageNumber,"now_playing"); //FETCHING MOVIES ARRAY
          setMainMovie(res);
          

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 
 const VideoBackground = ({trailer}) => {
 
-  console.log("video background rendered")
+  //console.log("video background rendered")
 
 
 

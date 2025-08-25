@@ -4,7 +4,7 @@ import useMoviesContext from '../utils/useMoviesContext'
 const VideoTitle = ({title,overview}) => {
   const {trailer}=useMoviesContext()
 
-  console.log("video title rendered")
+  //console.log("video title rendered")
 
   const handleClick=()=>{
 

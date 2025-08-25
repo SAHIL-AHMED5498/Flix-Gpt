@@ -48,7 +48,7 @@ export const MovieContextProvider=({children})=>{
          const trailer = filteredData.length > 0 ? filteredData[0] : json.results[0]; //EXCEPTION CASES HANDLING 
         // console.log("trailer"+JSON.stringify(trailer));
          
-         console.log("fetched trailer")
+       //  console.log("fetched trailer")
          setTrailer(trailer);  //PUT FILTERED TRAILER TO trailer variable
          setSelectedMovie(trailer);
          return trailer;

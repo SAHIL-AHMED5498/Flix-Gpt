@@ -1,8 +1,9 @@
-import  { useEffect, useRef, useState } from "react";
+import  {useRef, useState } from "react";
 import { validate } from "../utils/validate";
 import { useFirebaseAuth } from "../utils/firebase";
 import toast from "react-hot-toast";
-import { auth } from "../utils/firebase";
+import { Eye, EyeOff } from "lucide-react"; 
+
 import useUserContext from "../utils/useUserContext";
 
 
@@ -15,11 +16,25 @@ const Login = () => {
   const { signUp, login } = useFirebaseAuth();  //GET AUTH FUNCTIONS
   const [sign, setSign] = useState(true); //MANAGE FORM 
   const [err, setErr] = useState(null); //DISPLAY FORM ERROR
+  const [showPass,setShowPass]=useState(false);
 
 
   const email = useRef(null); 
   const pass = useRef(null);
   const name = useRef(null);
+
+  const handleGuestLogin=async()=>{
+
+    
+        await toast.promise(
+          login("test5@gmail.com", "Test5@123"),  //SIGNIN USER
+          {
+          loading: 'Signing in...',
+          //success: <b>Welcome back!</b>,
+          error: <b>Login failed. Check your credentials.</b>,
+        })
+
+  }
 
 
 
@@ -189,13 +204,25 @@ const Login = () => {
             placeholder="Email"
             className="w-full mb-3 p-2 rounded bg-gray-800 placeholder-gray-400 outline-none"
           />
-          <input
-            ref={pass}
-            type="password"
-            placeholder="Password"
-            className="w-full mb-4 p-2 rounded bg-gray-800 placeholder-gray-400 outline-none"
-          />
-          <p className="text-red-500 text-xl py-2 font-bold">{err}</p>
+
+         <div className="relative w-full mb-4">
+  <input
+    ref={pass}
+    type={showPass ? "text" : "password"}
+    placeholder="Password"
+    className="w-full p-2 rounded bg-gray-800 placeholder-gray-400 outline-none pr-10"
+  />
+  <button
+    type="button"
+    onClick={() => setShowPass(!showPass)}
+    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+  >
+    {showPass ? <EyeOff size={20} /> : <Eye size={20} />}
+  </button>
+</div>
+
+
+          <p className="text-red-500 text-sm font-semibold mb-2">{err}</p>
 
           <button
             className="w-full bg-green-600 hover:bg-green-700 transition p-2 rounded mb-4  active:scale-95"
@@ -203,6 +230,7 @@ const Login = () => {
           >
             {sign ? "Sign In" : "Create Account"}
           </button>
+          <button  onClick={handleGuestLogin} className="w-full bg-blue-600 hover:bg-blue-700 transition p-2 rounded mb-4  active:scale-95">sign In as guest</button>
 
           <p className="text-center text-sm ">
             {sign ? "Not a user?" : "Already have an account?"}{" "}

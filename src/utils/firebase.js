@@ -5,10 +5,10 @@ import useUserContext from "./useUserContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-import { BACKEND_URL } from './constant';
+import { BACKEND_URL,GOOGLE_API_KEY } from './constant';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD_8rMibMOZHb1JIlbtXK-t_ZwStzI8urA",
+  apiKey: GOOGLE_API_KEY,
   authDomain: "flix-gpt-f48c8.firebaseapp.com",
   projectId: "flix-gpt-f48c8",
   storageBucket: "flix-gpt-f48c8.firebasestorage.app",

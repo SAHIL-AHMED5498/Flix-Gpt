@@ -1,5 +1,5 @@
 import { createContext, useContext, useRef, useState} from "react";
-import { options } from "./constant";
+
 
 
 
@@ -44,7 +44,7 @@ export const MovieContextProvider=({children})=>{
          const data =await fetch(`https://tmdb-proxy-dzjf.onrender.com/3/movie/${id}/videos?language=en-US`); //FETCH GIVEN MOVIE VIDEOS
          const json=await data.json();   //CONVERT TO JS OBJ
          
-         const filteredData=json.results.filter((v)=>v.type=="Trailer");   //FILTER TO GET ONLY TRAILERS
+         const filteredData=json.results.filter((v)=>v.type==="Trailer");   //FILTER TO GET ONLY TRAILERS
          const trailer = filteredData.length > 0 ? filteredData[0] : json.results[0]; //EXCEPTION CASES HANDLING 
         // console.log("trailer"+JSON.stringify(trailer));
          

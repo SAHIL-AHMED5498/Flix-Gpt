@@ -25,6 +25,8 @@ const Login = () => {
 
   const handleGuestLogin=async()=>{
 
+    toast("Server starting...");
+
     
         await toast.promise(
           login("test5@gmail.com", "Test5@123"),  //SIGNIN USER

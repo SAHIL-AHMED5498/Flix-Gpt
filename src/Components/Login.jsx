@@ -23,27 +23,22 @@ const Login = () => {
   const pass = useRef(null);
   const name = useRef(null);
 
-  const handleGuestLogin=async()=>{
-
-    toast("Server starting...");
-
-    
+  const handleGuestLogin=async()=>{    
         await toast.promise(
           login("test5@gmail.com", "Test5@123"),  //SIGNIN USER
           {
           loading: 'Signing in...',
-          //success: <b>Welcome back!</b>,
+          success: <b>Welcome back!</b>,
           error: <b>Login failed. Check your credentials.</b>,
         })
 
   }
 
-
-
   const toggleSign = (e) => {
     e.preventDefault(); // Prevent form submission
     setSign(!sign);
   };  //TOGGLE SIGN IN, SIGN UP PAGE
+
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -59,15 +54,13 @@ const Login = () => {
     if(errMessage){
       return;
     }
+
+
+
+
     try{ 
        if (!sign) {
          //IF A SIGNUP REQUEST
-       
-
-        
-
-  
-
         await toast.promise(signUp(emailVal, passVal, nameVal), //CREATE USER
           {
           loading: 'Creating account...',
@@ -107,26 +100,22 @@ const Login = () => {
       </button>
     </div>
   </div>
-))},500)  
+))},500)}
 
-         
-      
-
-
-
-
-      //console.log(user);
-    }
      else
      {
 
-        await toast.promise(
+        const userData=await toast.promise(
           login(emailVal, passVal),  //SIGNIN USER
           {
           loading: 'Signing in...',
           //success: <b>Welcome back!</b>,
           error: <b>Login failed. Check your credentials.</b>,
         })
+
+        if(!userData){
+          throw new Error("login failed")
+        }
 
      toast.custom((t) => (
   <div
@@ -146,7 +135,7 @@ const Login = () => {
             Sahil (Developer)
           </p>
           <p className="mt-1 text-sm text-gray-500">
-  Welcome Back <span className="text-purple-600 font-semibold">{user?.name || "User"}</span>
+  Welcome Back <span className="text-purple-600 font-semibold">{userData?.name || "User"}</span>
 </p>
         </div>
       </div>
@@ -163,13 +152,14 @@ const Login = () => {
 ))
 
       
-      //console.log(user);
 
 
     }}
+
+
+
     catch(err){
       console.log(err);
-      //toast.error("unexpected error occured");
     }
   
 

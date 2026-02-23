@@ -12,7 +12,6 @@ function App() {
 const routes=createBrowserRouter([
   {path:"/",
     element:<Layout/>,
-
     children:[
       {path:"/",element:<Login/>},
       {path:"/browse",element:<Browse/>},

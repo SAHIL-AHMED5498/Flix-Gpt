@@ -65,8 +65,11 @@ export const useFirebaseAuth = () => {//FIREBASE AUTH HOOK
 const login = async (email, pass) => {
   try {
     const res=await axios.post(BACKEND_URL+"/auth/signIn",{email,pass},{withCredentials:true});
+    console.log("from firebase page : ",res.data);
+
     addUser(res.data);
-    navigate("/browse")
+    navigate("/browse");
+    return res.data;
   } catch (error) {
     
     console.error("login error:", error.code, error.message);
@@ -120,7 +123,7 @@ const login = async (email, pass) => {
     };
 
     fetchProfile();
-  }, []);
+  }, [location.pathname]);
 
 
 

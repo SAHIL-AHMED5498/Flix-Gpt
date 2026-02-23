@@ -5,14 +5,6 @@ import { lang } from '../utils/languageConstants';
 
 const Body = () => {
   const {langKey}=useConfigContext();
- 
-
-
- 
- 
- 
-
-
   return (
     <div className='relative top-14'>
       <h1>{lang[langKey].searchbar}</h1>

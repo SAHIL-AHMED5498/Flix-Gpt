@@ -4,10 +4,6 @@ import { Toaster } from 'react-hot-toast';
 
 
 const Layout = () => {
- 
-
-
-
   return (
     <div>
       <Header />
@@ -16,31 +12,48 @@ const Layout = () => {
         toastOptions={{
           duration: 4000,
           style: {
-            background: '#1f2937', // Tailwind slate-800
+            background: 'rgba(15, 23, 42, 0.85)',
+            backdropFilter: 'blur(10px)',
             color: '#fff',
-            borderRadius: '10px',
+            borderRadius: '12px',
             padding: '12px 20px',
             fontSize: '0.95rem',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+            boxShadow: '0 8px 32px rgba(168, 85, 247, 0.15)',
+            border: '1px solid rgba(168, 85, 247, 0.3)',
           },
           success: {
             icon: '✅',
             style: {
-              background: '#15803d', // Tailwind green-700
+              background: 'rgba(20, 83, 45, 0.9)',
+              backdropFilter: 'blur(10px)',
               color: '#fff',
-              borderRadius: '10px',
+              borderRadius: '12px',
               padding: '12px 20px',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+              boxShadow: '0 8px 32px rgba(34, 197, 94, 0.15)',
+              border: '1px solid rgba(34, 197, 94, 0.3)',
             },
           },
           error: {
             icon: '⚠️',
             style: {
-              background: '#b91c1c', // Tailwind red-700
+              background: 'rgba(127, 29, 29, 0.9)',
+              backdropFilter: 'blur(10px)',
               color: '#fff',
-              borderRadius: '10px',
+              borderRadius: '12px',
               padding: '12px 20px',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+              boxShadow: '0 8px 32px rgba(239, 68, 68, 0.15)',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+            },
+          },
+          loading: {
+            style: {
+              background: 'rgba(15, 23, 42, 0.85)',
+              backdropFilter: 'blur(10px)',
+              color: '#a78bfa',
+              borderRadius: '12px',
+              padding: '12px 20px',
+              boxShadow: '0 8px 32px rgba(168, 85, 247, 0.15)',
+              border: '1px solid rgba(168, 85, 247, 0.3)',
             },
           },
         }}

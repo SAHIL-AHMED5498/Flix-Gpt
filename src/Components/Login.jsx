@@ -167,73 +167,104 @@ const Login = () => {
   };
 
   return (
-    <div className="relative h-screen w-screen top-12">
+    <div className="relative h-screen w-screen top-12 overflow-hidden">
       <img
-        // src="/images/imgOne.jpg"
         src="/bg-img.svg"
         alt="Background"
         className="w-full h-full object-cover"
       />
 
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-80 p-8 rounded-lg shadow-lg w-[300px] text-white">
-        <form onSubmit={(e) => e.preventDefault()}>
-          <h1 className="text-2xl font-bold mb-4 text-center">
-            {sign ? "Sign In" : "Sign Up"}
+      {/* Animated gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-purple-900/20 to-black/40"></div>
+
+      {/* Glass card with modern design */}
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 backdrop-blur-2xl bg-white/5 border border-white/10 p-10 rounded-2xl shadow-2xl w-[380px] text-white animate-[fadeInUp_0.6s_ease-out]">
+        
+        {/* Decorative glow effect */}
+        <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <form onSubmit={(e) => e.preventDefault()} className="relative z-10">
+          <h1 className="text-4xl font-bold mb-2 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            {sign ? "Welcome Back" : "Join Us"}
           </h1>
+          <p className="text-center text-gray-300 text-sm mb-6">
+            {sign ? "Sign in to your account" : "Create a new account"}
+          </p>
 
           {!sign && (
-            <input
-              ref={name}
-              type="text"
-              placeholder="Name"
-              className="w-full mb-3 p-2 rounded bg-gray-800 placeholder-gray-400 outline-none"
-            />
+            <div className="mb-4 animate-[slideInRight_0.5s_ease-out]">
+              <input
+                ref={name}
+                type="text"
+                placeholder="Full Name"
+                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 placeholder-gray-400 outline-none text-white focus:border-purple-500 focus:bg-white/20 focus:shadow-lg focus:shadow-purple-500/20 transition-all duration-300"
+              />
+            </div>
           )}
 
-          <input
-            ref={email}
-            type="text"
-            placeholder="Email"
-            className="w-full mb-3 p-2 rounded bg-gray-800 placeholder-gray-400 outline-none"
-          />
+          <div className="mb-4 animate-[slideInRight_0.6s_ease-out]">
+            <input
+              ref={email}
+              type="text"
+              placeholder="Email Address"
+              className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 placeholder-gray-400 outline-none text-white focus:border-purple-500 focus:bg-white/20 focus:shadow-lg focus:shadow-purple-500/20 transition-all duration-300"
+            />
+          </div>
 
-         <div className="relative w-full mb-4">
-  <input
-    ref={pass}
-    type={showPass ? "text" : "password"}
-    placeholder="Password"
-    className="w-full p-2 rounded bg-gray-800 placeholder-gray-400 outline-none pr-10"
-  />
-  <button
-    type="button"
-    onClick={() => setShowPass(!showPass)}
-    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
-  >
-    {showPass ? <EyeOff size={20} /> : <Eye size={20} />}
-  </button>
-</div>
+          <div className="mb-4 animate-[slideInRight_0.7s_ease-out]">
+            <div className="relative w-full">
+              <input
+                ref={pass}
+                type={showPass ? "text" : "password"}
+                placeholder="Password"
+                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 placeholder-gray-400 outline-none text-white focus:border-purple-500 focus:bg-white/20 focus:shadow-lg focus:shadow-purple-500/20 transition-all duration-300 pr-12"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPass(!showPass)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-purple-400 transition-colors duration-300"
+              >
+                {showPass ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+          </div>
 
-
-          <p className="text-red-500 text-sm font-semibold mb-2">{err}</p>
+          {err && (
+            <p className="text-red-400 text-sm font-semibold mb-4 animate-[slideDown_0.3s_ease-out] bg-red-500/10 px-4 py-2 rounded-lg border border-red-500/30">
+              {err}
+            </p>
+          )}
 
           <button
-            className="w-full bg-green-600 hover:bg-green-700 transition p-2 rounded mb-4  active:scale-95"
+            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 rounded-lg mb-3 active:scale-95 transition-all duration-300 transform hover:shadow-lg hover:shadow-purple-500/50 animate-[scaleIn_0.8s_ease-out]"
             onClick={handleClick}
           >
             {sign ? "Sign In" : "Create Account"}
           </button>
-          <button  onClick={handleGuestLogin} className="w-full bg-blue-600 hover:bg-blue-700 transition p-2 rounded mb-4  active:scale-95">sign In as guest</button>
 
-          <p className="text-center text-sm ">
-            {sign ? "Not a user?" : "Already have an account?"}{" "}
+          <button
+            onClick={handleGuestLogin}
+            className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold py-3 rounded-lg mb-4 active:scale-95 transition-all duration-300 transform hover:shadow-lg hover:shadow-blue-500/50"
+          >
+            Guest Login
+          </button>
+
+          <p className="text-center text-sm text-gray-300">
+            {sign ? "Don't have an account?" : "Already have an account?"}{" "}
             <button
               onClick={toggleSign}
-              className="text-green-400 hover:underline rounded-sm active:scale-95"
+              className="text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text font-bold hover:opacity-80 transition-opacity duration-300"
             >
               {sign ? "Sign Up" : "Sign In"}
             </button>
-            {!sign && <button className="bg-blue-500 p-2 m-2 font-bold rounded hover:bg-blue-600 active:scale-95 active:font-extrabold">Sign in with Google</button>}
           </p>
+
+          {!sign && (
+            <button className="w-full mt-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white py-3 rounded-lg font-bold transition-all duration-300 transform hover:shadow-lg">
+              Sign up with Google
+            </button>
+          )}
         </form>
       </div>
     </div>

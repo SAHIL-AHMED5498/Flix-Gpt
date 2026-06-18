@@ -60,28 +60,28 @@ const Browse = () => {
     return <div className="relative top-14">loading...</div>;
   }
 
-  //top-14 relative
-
   return (
     <>
-      <div className="relative top-14">
+      <div>
         {selectedMovie && <MainContainer mainMovie={selectedMovie} />}
 
-        <div className="bg-black h-[1000px] w-screen"></div>
+        <div className="bg-gradient-to-b from-black/0 via-black/50 to-black/80 h-[1000px] w-screen"></div>
 
         <SecondaryContainer />
 
+        {/* Navigation Buttons */}
         <button
           onClick={decreasePageNumber}
-          className="p-2 m-2 bg-purple-400 opacity-40 w-12 h-8 flex justify-center items-center z-40 fixed bottom-0 left-6 rounded active:scale-90 rotate-180 active:opacity-100 "
+          className="p-3 fixed bottom-8 left-8 z-40 rounded-full backdrop-blur-lg bg-gradient-to-r from-purple-500/80 to-pink-500/60 hover:from-purple-600 hover:to-pink-600 text-white font-bold text-xl w-14 h-14 flex justify-center items-center active:scale-90 transition-all duration-300 transform hover:shadow-2xl hover:shadow-purple-500/50 border border-white/20 group"
         >
-          ➜
+          <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span>
         </button>
+
         <button
           onClick={increasePageNumber}
-          className="p-2 m-2 bg-red-400 opacity-40 w-12 h-8 flex justify-center items-center z-40 fixed bottom-0 right-6 rounded active:scale-90 active:opacity-100"
+          className="p-3 fixed bottom-8 right-8 z-40 rounded-full backdrop-blur-lg bg-gradient-to-r from-blue-500/80 to-cyan-500/60 hover:from-blue-600 hover:to-cyan-600 text-white font-bold text-xl w-14 h-14 flex justify-center items-center active:scale-90 transition-all duration-300 transform hover:shadow-2xl hover:shadow-blue-500/50 border border-white/20 group"
         >
-          ➜
+          <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
         </button>
       </div>
     </>

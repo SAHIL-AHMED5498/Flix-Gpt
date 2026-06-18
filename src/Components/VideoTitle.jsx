@@ -1,39 +1,102 @@
 import React from 'react'
 import useMoviesContext from '../utils/useMoviesContext'
 
-const VideoTitle = ({title,overview}) => {
-  const {trailer}=useMoviesContext()
+const VideoTitle = ({ title, overview }) => {
+  const { trailer } = useMoviesContext()
 
-  //console.log("video title rendered")
-
-  const handleClick=()=>{
-
-    window.open(`https://www.youtube.com/watch?v=${trailer.key}`, "_blank")
-
+  const handleClick = () => {
+    if (trailer?.key) {
+      window.open(
+        `https://www.youtube.com/watch?v=${trailer.key}`,
+        "_blank"
+      )
+    }
   }
+
   const handleClick2 = (movieName) => {
-  const query = encodeURIComponent(`${movieName} site:en.wikipedia.org`);
-  const url = `https://www.google.com/search?q=${query}`;
-  window.open(url, '_blank');
-};
+    const query = encodeURIComponent(
+      `${movieName} site:en.wikipedia.org`
+    )
+    const url = `https://www.google.com/search?q=${query}`
+    window.open(url, "_blank")
+  }
 
- // console.log("title"+title)
- //absolute sm:top-20 left-4 bottom-12
   return (
-    
-    <div className='sm:pl-6 pl-2 pt-24 sm:pt-16 absolute top-0 text-white w-screen aspect-video bg-gradient-to-r from-black/90  to-transparent'>
-<h1 className="text-2xl font-bold font-sans pb-2 sm:text-4xl sm:font-bold ">
-  {title}
-</h1>
-     <p className='sm:w-1/4 sm:text-[0.7rem] text-left sm:block hidden font-sans '>{overview}</p>
-    <div className='flex justify-start items-center w-60 sm:gap-1  gap-1 mt-1 py-1  '>
-        <button className='px-2 w-24 bg-white text-black rounded active:scale-95 cursor-pointer hover:scale-105 hover:opacity-75 ' onClick={handleClick}>► play</button>
-      <button className='px-2 w-24 bg-zinc-900  text-white rounded active:scale-95 cursor-pointer hover:scale-105 hover:bg-black' onClick={()=>handleClick2(title)}>more Info+</button>
-      </div>
- 
-    </div>
+    <div
+      className="
+        absolute
+        top-0
+        left-0
+        w-full
+        h-[220px]
+        sm:h-auto
+        sm:aspect-video
+        text-white
+        bg-gradient-to-r
+        from-black/90
+        via-black/50
+        to-transparent
+        sm:pl-8
+        pl-2
+        pt-16
+        sm:pt-20
+      "
+    >
+      <h1
+        className="
+          text-xl
+          sm:text-5xl
+          font-bold
+          font-sans
+          pb-3
+        "
+      >
+        {title}
+      </h1>
 
-   
+      <p
+        className="
+          hidden
+          sm:block
+          w-1/3
+          text-sm
+          text-gray-200
+          leading-relaxed
+          line-clamp-3
+        "
+      >
+        {overview}
+      </p>
+
+      <div className="flex gap-3 mt-4">
+        <button
+          className="
+            px-4
+            py-2
+            bg-white
+            text-black
+            rounded-md
+            font-semibold
+          "
+          onClick={handleClick}
+        >
+          ▶ Play
+        </button>
+
+        <button
+          className="
+            px-4
+            py-2
+            bg-gray-700
+            text-white
+            rounded-md
+          "
+          onClick={() => handleClick2(title)}
+        >
+          ℹ Info
+        </button>
+      </div>
+    </div>
   )
 }
 

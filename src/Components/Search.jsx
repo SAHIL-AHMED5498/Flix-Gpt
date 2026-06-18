@@ -82,36 +82,56 @@ const Search = () => {
           </form>
         </div>
 
-        {results && (
-          <div className="py-8 px-4 w-full max-w-6xl z-10 animate-[fadeInUp_0.6s_ease-out]">
-            <h2 className="pb-4 text-white font-sans font-bold text-xl sm:text-2xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              ✨ AI Suggested Movies
-            </h2>
+      {/* AI Results */}
+{results?.length > 0 && (
+  <div className="w-full max-w-7xl mt-10 z-10">
+    <h2 className="mb-6 text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+      ✨ AI Suggested Movies
+    </h2>
 
-            <div className="flex overflow-x-auto gap-4 h-48 cursor-pointer pb-4">
-              {results.map((m, index) => {
-                const posterUrl = `${image_cdn_url}${m.poster_path}`;
+    <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide">
+      {results.map((movie) => {
+        const posterUrl = `${image_cdn_url}${movie.poster_path}`;
 
-                return (
-                  <div key={m.id} className='flex-shrink-0 animate-[slideInRight_0.6s_ease-out]' style={{animationDelay: `${index * 50}ms`}}>
-                    <MovieCard posterUrl={posterUrl} movieId={m.id} />
-                  </div>
-                );
-              })}
-            </div>
+        return (
+          <div
+            key={movie.id}
+            className="flex-shrink-0 w-[180px]"
+          >
+            <MovieCard
+              posterUrl={posterUrl}
+              movieId={movie.id}
+            />
           </div>
-        )}
+        );
+      })}
+    </div>
+  </div>
+)}
 
-        {showShimmer && !results && (
-          <div className="w-full max-w-6xl mt-12 z-10">
-            <p className="text-white text-lg animate-pulse">Loading AI recommendations...</p>
-            <div className="flex gap-4 mt-6">
-              {[...Array(4)].map((_, i) => (
-                <ShimmerPostItem key={i} card title cta />
-              ))}
-            </div>
-          </div>
-        )}
+{/* Shimmer */}
+{showShimmer && (
+  <div className="w-full max-w-7xl mt-10 z-10">
+    <h2 className="mb-6 text-white text-xl font-semibold">
+      Loading AI recommendations...
+    </h2>
+
+    <div className="flex gap-5 overflow-x-auto pb-4">
+      {[1, 2, 3, 4, 5, 6].map((item) => (
+        <div
+          key={item}
+          className="flex-shrink-0 w-[180px]"
+        >
+          <div className="h-[270px] rounded-xl bg-white/10 animate-pulse" />
+
+          <div className="mt-3 h-4 rounded bg-white/10 animate-pulse" />
+
+          <div className="mt-2 h-4 w-3/4 rounded bg-white/10 animate-pulse" />
+        </div>
+      ))}
+    </div>
+  </div>
+)}
 
         <div className="w-full max-w-6xl z-10">
           <MovieList

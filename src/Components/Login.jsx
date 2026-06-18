@@ -167,7 +167,7 @@ const Login = () => {
   };
 
   return (
-    <div className="relative h-screen w-screen top-12 overflow-hidden">
+    <div className="relative h-screen w-screen top-0 overflow-hidden">
       <img
         src="/bg-img.svg"
         alt="Background"

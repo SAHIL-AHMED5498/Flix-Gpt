@@ -53,7 +53,9 @@ const Header = () => {
                 onClick={() => navigate("/browse")}
                 className="text-sm font-medium tracking-wide text-[#e5e5e5] hover:text-white transition-colors duration-200"
               >
-                Home
+               <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-semibold tracking-wide hover:opacity-80 transition-all duration-300">
+  Home
+</span>
               </button>
             )}
           </div>
@@ -64,7 +66,7 @@ const Header = () => {
                 onClick={handleSearchClick}
                 className="rounded-md bg-white/10 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-white hover:bg-white/20 transition-colors duration-200"
               >
-                Search
+                ⚡ AI Discovery
               </button>
             )}
 

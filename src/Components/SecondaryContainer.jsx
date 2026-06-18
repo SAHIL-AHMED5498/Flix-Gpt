@@ -1,19 +1,18 @@
-import { useState } from 'react'
-import useMoviesContext from '../utils/useMoviesContext'
-import MovieList from './MovieList'
+import useMoviesContext from "../utils/useMoviesContext";
+import MovieList from "./MovieList";
 
 const SecondaryContainer = () => {
-  const { pageNumber } = useMoviesContext()
+  const { pageNumber } = useMoviesContext();
 
-  const newPageNumber = pageNumber + 2
+  const newPageNumber = pageNumber + 2;
 
   if (!true) {
-    return <div>Loading Movie Lists....</div>
+    return <div>Loading Movie Lists....</div>;
   }
 
   return (
-    <>
-      <div className='absolute sm:top-96 top-44 sm:pl-8 pl-0 flex flex-col w-full bg-gradient-to-b from-transparent via-black/40 to-black/80 pt-8'>
+    <section className="relative z-20 -mt-24 sm:-mt-32 lg:-mt-40">
+      <div className="w-full bg-gradient-to-b from-transparent via-[#141414]/95 to-[#141414] pt-6 sm:pt-10">
         <MovieList heading={"Now Playing Movies"} type={"now_playing"} p={pageNumber} />
         <MovieList heading={"Trending"} type={"top_rated"} p={pageNumber} />
         <MovieList heading={"Popular"} type={"popular"} p={pageNumber} />
@@ -24,8 +23,8 @@ const SecondaryContainer = () => {
         <MovieList heading={"Popular"} type={"popular"} p={newPageNumber} />
         <MovieList heading={"Upcoming"} type={"upcoming"} p={newPageNumber} />
       </div>
-    </>
-  )
-}
+    </section>
+  );
+};
 
-export default SecondaryContainer
+export default SecondaryContainer;

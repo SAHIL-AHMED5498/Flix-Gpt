@@ -1,82 +1,94 @@
+import { useEffect, useState } from "react";
 import { useFirebaseAuth } from "../utils/firebase";
-import useUserContext from "../utils/useUserContext"
+import useUserContext from "../utils/useUserContext";
 import SelectLang from "./SelectLang";
-import { supportedLang } from "../utils/languageConstants";
-import { useNavigate } from "react-router-dom";
-const Header=()=>{
+import { useLocation, useNavigate } from "react-router-dom";
 
-    const {user}=useUserContext();
-   const {logout}=useFirebaseAuth();
-   const navigate=useNavigate();
+const Header = () => {
+  const { user } = useUserContext();
+  const { logout } = useFirebaseAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isScrolled, setIsScrolled] = useState(false);
 
-   const handleSearchClick=()=>{
-      navigate("/search");
-   }
+  const isBrowse = location.pathname === "/browse";
 
-return(
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 32);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const handleSearchClick = () => {
+    navigate("/search");
+  };
+
+  return (
     <>
-      <div className="bg-gradient-to-b from-black/90 via-black/70 to-transparent backdrop-blur-xl w-full fixed z-10 px-6 py-4 border-b border-white/5 shadow-2xl shadow-purple-500/10">
-        {/* Main navbar content */}
-        <div className="flex justify-between items-center">
-          
-          {/* Logo Section */}
-          <div 
-            onClick={()=>(user)?navigate("/browse"):navigate("/")} 
-            className="cursor-pointer transform hover:scale-105 transition-transform duration-300 group"
+      <header
+        className={`fixed top-0 left-0 z-50 w-full transition-all duration-500 ${
+          isBrowse
+            ? isScrolled
+              ? "bg-black/90 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+              : "bg-gradient-to-b from-black/80 via-black/40 to-transparent"
+            : "bg-black/95 backdrop-blur-md border-b border-white/10"
+        }`}
+      >
+        <div className="mx-auto flex h-16 sm:h-20 w-full max-w-[1800px] items-center justify-between px-4 sm:px-8">
+          <div
+            onClick={() => (user ? navigate("/browse") : navigate("/"))}
+            className="cursor-pointer"
           >
-            <div className="relative">
-              <div className="absolute -inset-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <img className="h-12 drop-shadow-lg relative z-10" src="/images/flix-logo.jpg" alt="Flix Logo" />
-            </div>
+            <img
+              className="h-8 sm:h-10 w-auto object-contain"
+              src="/images/flix-logo.jpg"
+              alt="Flix Logo"
+            />
           </div>
-          
-          {/* Center Navigation Items */}
+
           <div className="hidden md:flex items-center gap-8">
             {user && (
-              <button 
+              <button
                 onClick={() => navigate("/browse")}
-                className="text-gray-300 hover:text-white font-semibold transition-colors duration-300 relative group"
+                className="text-sm font-medium tracking-wide text-[#e5e5e5] hover:text-white transition-colors duration-200"
               >
-                Browse
-                <span className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500 group-hover:w-full transition-all duration-300 rounded-full"></span>
+                Home
               </button>
             )}
           </div>
 
-          {/* Right Section */}
-          <div className="flex justify-center items-center gap-3">
-            {(user)&& (
-              <button 
-                onClick={handleSearchClick} 
-                className="px-5 py-2.5 bg-white/10 hover:bg-white/15 backdrop-blur-md text-white border border-purple-500/40 hover:border-purple-400 rounded-lg active:scale-95 transition-all duration-300 transform hover:shadow-lg hover:shadow-purple-500/40 font-medium text-sm"
+          <div className="flex items-center gap-2 sm:gap-3">
+            {user && (
+              <button
+                onClick={handleSearchClick}
+                className="rounded-md bg-white/10 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-white hover:bg-white/20 transition-colors duration-200"
               >
-                <span className="font-sans font-bold text-purple-400 mr-2">⚡</span>
-                <span className="hidden sm:inline">Search</span>
+                Search
               </button>
             )}
-            
-            {(false)&&<div><SelectLang/></div>}
+
+            {false && (
+              <div>
+                <SelectLang />
+              </div>
+            )}
 
             {user && (
-              <button 
-                className="bg-gradient-to-r from-red-500/80 to-pink-500/80 hover:from-red-600 hover:to-pink-600 text-white px-5 py-2.5 rounded-lg active:scale-95 transition-all duration-300 transform hover:shadow-lg hover:shadow-red-500/40 font-semibold text-sm border border-red-400/30" 
+              <button
+                className="rounded-md bg-[#e50914] px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-white hover:bg-[#f6121d] transition-colors duration-200"
                 onClick={logout}
               >
                 Logout
               </button>
-            )} 
+            )}
           </div>
         </div>
+      </header>
 
-        {/* Animated bottom border */}
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-500/30 to-transparent"></div>
-      </div>
-
-      {/* Spacer for fixed navbar */}
-      <div className="h-20"></div>
+      {!isBrowse && <div className="h-16 sm:h-20"></div>}
     </>
-)
+  );
+};
 
-}
-
-export default Header
+export default Header;
